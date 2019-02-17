@@ -24,6 +24,8 @@ component displayname="RSA" output="false" hint="Creates KeyPairs, encrypts and 
 	* @bouncyCastle_Path full directory path and filename to jar 
 	*/	
 	public rsa function init(javaloader javaLoader, string bouncyCastle_Path = 'org.bouncycastle.jce.provider.BouncyCastleProvider') {
+		variables.bouncyCastle = createObject('java', 'org.bouncycastle.jce.provider.BouncyCastleProvider').init();
+	
 		return this;
 	}
 
@@ -33,7 +35,6 @@ component displayname="RSA" output="false" hint="Creates KeyPairs, encrypts and 
 	* @output_type object, binary or string 
 	*/	
 	public struct function create_key_pair(numeric key_size = 512, string output_type = 'string') {
-		
 	}
 
 	/**
