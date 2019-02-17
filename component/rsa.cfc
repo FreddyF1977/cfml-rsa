@@ -81,7 +81,22 @@ component displayname="RSA" output="false" hint="Creates KeyPairs, encrypts and 
 	* @key_type public or private 
 	*/	
 	public string function encrypt_string(required string text, required string key, string key_type = 'public') {
-		
+		var local = {};
+		/* Create a Java Cipher object and get a mode */
+		var cipher = createObject('java', 'javax.crypto.Cipher').getInstance("RSA");
+
+			if (!isObject(arguments.key)) {
+				arguments.key = create_key_object_helper(arguments.key,arguments.key_type);
+			}
+
+			/* Initialize the Cipher with the mode and the key */
+			cipher.init(cipher.ENCRYPT_MODE, arguments.key);
+
+			/* Perform encryption of bytes, returns binary */
+			local.encrypted = cipher.doFinal(arguments.text.getBytes("UTF-8"));
+
+		/* Convert binary to Base64 encoded string */
+		return toBase64(local.encrypted);
 	}
 
 	/**
