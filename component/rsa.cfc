@@ -130,7 +130,26 @@ component displayname="RSA" output="false" hint="Creates KeyPairs, encrypts and 
 	* @type public or private 
 	*/	
 	public string function create_key_object_helper(required any key, required string type) {
+		var local = {};
 
+			if (!isBinary(arguments.key)) {
+				arguments.key = toBinary(arguments.key);
+			}
+
+			local.key_factory = createObject('java', 'java.security.KeyFactory').getInstance('RSA');
+
+			if (arguments.type == 'public') {
+				/* create public key object */
+				local.spec	= createObject('java', 'java.security.spec.X509EncodedKeySpec').init(arguments.key);
+				local.key	= local.key_factory.generatePublic(local.spec);
+			} else if (arguments.type == 'private') {
+				/* create private key object */
+				local.spec	= createObject('java', 'java.security.spec.PKCS8EncodedKeySpec').init(arguments.key);
+				local.key	= local.key_factory.generatePrivate(local.spec);
+			} else {
+				local.key = '';
+			}
+
+		return local.key;
 	}
-
 }
