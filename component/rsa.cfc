@@ -1,5 +1,5 @@
 <!---
-	rsa.cfc (https://github.com/ggfx/coldfusion-rsa)
+	rsa.cfc (https://github.com/FreddyF1977/cfml-rsa/) - Fork
 	Component for asymmetric key cryptograph using java security, it has these methods:
 	-	 create_key_pair: creates a RSA key-pair, returns a struct with public and private key
 	-	 encrypt_string:  encrypts a text-string with public or private key (for private key provide parameter key_type='private') returns base64 encoded string
@@ -8,9 +8,12 @@
 	Can be used with BouncyCastleProvider e.g. http://www.bouncycastle.org/download/bcprov-jdk15on-149.jar
 	For BouncyCastle jar you have to use JavaLoader (https://github.com/markmandel/JavaLoader)
 
-	@Author	Cornelius Rittner
+	@OriginalAuthor	Cornelius Rittner
 	@Website http://ggfx.org
 	@Date	25.07.2013
+
+	@ModernizedBy Frédéric Fortier
+	@Date 16.02.2019
 --->
 <cfcomponent name="rsa" hint="Creates KeyPairs, encrypts and decrypts strings">
 
