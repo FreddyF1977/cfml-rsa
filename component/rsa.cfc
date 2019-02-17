@@ -140,12 +140,12 @@ component displayname="RSA" output="false" hint="Creates KeyPairs, encrypts and 
 
 			if (arguments.type == 'public') {
 				/* create public key object */
-				local.spec	= createObject('java', 'java.security.spec.X509EncodedKeySpec').init(arguments.key);
-				local.key	= local.key_factory.generatePublic(local.spec);
+				local.spec = createObject('java', 'java.security.spec.X509EncodedKeySpec').init(arguments.key);
+				local.key = local.key_factory.generatePublic(local.spec);
 			} else if (arguments.type == 'private') {
 				/* create private key object */
-				local.spec	= createObject('java', 'java.security.spec.PKCS8EncodedKeySpec').init(arguments.key);
-				local.key	= local.key_factory.generatePrivate(local.spec);
+				local.spec = createObject('java', 'java.security.spec.PKCS8EncodedKeySpec').init(arguments.key);
+				local.key = local.key_factory.generatePrivate(local.spec);
 			} else {
 				local.key = '';
 			}
