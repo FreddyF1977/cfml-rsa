@@ -35,6 +35,43 @@ component displayname="RSA" output="false" hint="Creates KeyPairs, encrypts and 
 	* @output_type object, binary or string 
 	*/	
 	public struct function create_key_pair(numeric key_size = 512, string output_type = 'string') {
+		var local = {};
+		var obj_kpg = createObject('java','java.security.KeyPairGenerator');
+
+		local.out = {};
+
+			/* Get an instance of the provider for the RSA algorithm. */
+			if (variables.keyExists('bouncyCastle') && isObject(variables.bouncyCastle)) {
+				local.rsa = obj_kpg.getInstance("RSA",variables.bouncyCastle);
+			} else {
+				local.rsa = obj_kpg.getInstance("RSA");
+			}
+
+			/* Get an instance of secureRandom, we'll need this to initialize the key generator */
+			local.sr = createObject('java', 'java.security.SecureRandom').init();
+
+			/* Initialize the generator by passing in the key size, and a strong pseudo-random number generator */
+			local.rsa.initialize(arguments.key_size, local.sr);
+
+			/* This will create both one public and one private key */
+			local.kp = local.rsa.generateKeyPair();
+
+			/* Get the two keys */
+			local.out.private_key = local.kp.getPrivate();
+			local.out.public_key = local.kp.getPublic();
+
+			if (arguments.output_type != "object") {
+				local.out.private_key = local.out.private_key.getEncoded();
+				local.out.public_key = local.out.public_key.getEncoded();
+
+				/* Retreive a Base64 encoded version of the key. Can be stored in file or database */
+				if (arguments.output_type == "string") {
+					local.out.private_key = toBase64(local.out.private_key);
+					local.out.public_key = toBase64(local.out.public_key);
+				}
+			}
+
+		return local.out;
 	}
 
 	/**
